@@ -18,7 +18,7 @@ namespace EjExamenFich
         private string Pass;
         private bool Activo;
 
-        public Alumno(string dNI, string nombre, string direccion, string ensenianza, string telefono, string email)
+        public Alumno(string dNI, string nombre, string direccion, string ensenianza, string telefono, string email, string pass, bool activo)
         {
             DNI = dNI;
             Nombre = nombre;

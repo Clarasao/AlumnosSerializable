@@ -45,6 +45,7 @@ namespace EjExamenFich
             
           
         }
+       
         private void darDeAltaToolStripMenuItem_Click(object sender, EventArgs e)
         {
            
@@ -61,7 +62,7 @@ namespace EjExamenFich
                 {
                     MessageBox.Show(altaAlumno.getAlumno().DNI1 + " " + altaAlumno.getAlumno().Nombre1);
                     alumnos.Add(altaAlumno.getAlumno()); 
-                    serializarFichero();
+                    serializarFichero(alumnos);
                     alumnoToolStripMenuItem.Enabled = false;
                     archivo.Close();
                     MessageBox.Show("Se ha añadido correctamente el alumno");
@@ -123,7 +124,7 @@ namespace EjExamenFich
        
 
 
-        public void serializarFichero()
+        public void serializarFichero(ArrayList al)
         {
             using (FileStream archivo = new FileStream(ruta, FileMode.Create))
             {
@@ -131,16 +132,16 @@ namespace EjExamenFich
                 BinaryFormatter binaryFormatter = new BinaryFormatter();
 
                 // Serializar la lista y escribir en el archivo
-                binaryFormatter.Serialize(archivo, alumnos);
+                binaryFormatter.Serialize(archivo, al);
 
                 Console.WriteLine("Datos escritos en el archivo correctamente.");
             }
         }
 
 
-        public void serializarFicheroArray(ArrayList al)
+      /*  public void serializarFicheroArray(ArrayList al)
         {
-            FileStream fs = new FileStream(archivo.Name, FileMode.Open, FileAccess.ReadWrite);
+            FileStream fs = new FileStream(archivo.Name, FileMode.Open, FileAccess.Write);
             BinaryFormatter binaryFormatter = new BinaryFormatter();
 
             try
@@ -158,7 +159,7 @@ namespace EjExamenFich
                 alumnoToolStripMenuItem.Enabled = false;
                 archivo.Close();
             }
-        }
+        }*/
         public ArrayList pasarArrayList()
         {
             return alumnos;

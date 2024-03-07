@@ -37,38 +37,28 @@ namespace EjExamenFich
             if (this.ValidateChildren())
             {
                 modificarPass(DNImaskedTextBox.Text, ContraseniaNuevatextBox.Text);
-                serializarFichero();
+                menu.serializarFichero(alumnos);
             }
         }
-        public void serializarFichero()
-        {
-            using (FileStream archivo = new FileStream(menu.getRuta(), FileMode.Create))
-            {
-                // Crear un BinaryFormatter para la serialización binaria
-                BinaryFormatter binaryFormatter = new BinaryFormatter();
-
-                // Serializar la lista y escribir en el archivo
-                binaryFormatter.Serialize(archivo, alumnos);
-
-                Console.WriteLine("Datos escritos en el archivo correctamente.");
-            }
-        }
+ 
       
         public void modificarPass(string dni, string contrasenia)
         {
-            foreach (Alumno a in alumnos)
+            Alumno alumno1 = null;
+            foreach (Alumno alumno in alumnos)
             {
-                if (a.DNI1.Equals(dni))
-                {
-                    a.setPass(contrasenia);
-                    DialogResult result = MessageBox.Show("¿Quieres activar al alumno?", "ACTIVAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
-                    if (result == DialogResult.Yes)
-                    {
-                        a.Activo1 = true;
-                        MessageBox.Show("Alumno " + a.Nombre1 + " actualizado " + a.Activo1 + " con contraseña " + a.getPass());
-                    }
+                if (alumno.DNI1.Equals(dni)){
+                    alumno1 = alumno;
                 }
             }
+            alumno1.setPass(contrasenia);
+           DialogResult result = MessageBox.Show("¿Quieres activar al alumno?", "ACTIVAR", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+           if (result == DialogResult.Yes)
+              {
+                alumno1.Activo1 = true;
+                MessageBox.Show("Alumno " + alumno1.Nombre1 + " actualizado " + alumno1.Activo1 + " con contraseña " + alumno1.getPass());
+              }
+                
         }
 
         private void ContraseniatextBox_Validating(object sender, CancelEventArgs e)
@@ -78,51 +68,33 @@ namespace EjExamenFich
                 errorProvider.SetError(ContraseniatextBox, "No puede estar vacía");
                 e.Cancel = true;
             }
+            else if(string.IsNullOrWhiteSpace(ContraseniaNuevatextBox.Text))
+            {
+                errorProvider.SetError(ContraseniaNuevatextBox, "No puede estar vacía");
+                e.Cancel = true;
+            }else if (!ContraseniatextBox.Text.Equals(ContraseniaNuevatextBox.Text))
+            {
+                errorProvider.SetError(ContraseniaNuevatextBox, "las dos contraseñas no coinciden");
+                e.Cancel = true;
+            }
             else
             {
                 errorProvider.Clear();
             }
         }
-        public bool encontrarAlumno(string nif)
-        {
-            bool encontrado = false;
-            foreach (Alumno a in alumnos)
-            {
-                if (a.DNI1.Equals(nif))
-                {
-                    encontrado = true;
-                }
-            }
-            return encontrado;
-        }
-      
+    
         private void DNImaskedTextBox_Validating(object sender, CancelEventArgs e)
         {
-            if (!this.encontrarAlumno(DNImaskedTextBox.Text))
+            if (string.IsNullOrEmpty(DNImaskedTextBox.Text))
             {
-                errorProvider.SetError(DNImaskedTextBox, "El DNI no existe");
-                e.Cancel = true;
-
+                errorProvider.SetError(DNImaskedTextBox,"El dni esta vacio");
+                e.Cancel= true;
             }
             else
             {
                 errorProvider.Clear();
-                foreach (Alumno a in alumnos)
-                {
-                    if (a.DNI1.Equals(DNImaskedTextBox.Text))
-                    {
-                        NombretextBox.Text = a.Nombre1;
-                        DirecciontextBox.Text = a.Direccion1;
-                        TelefonomaskedTextBox.Text = a.Telefono1;
-                        EmailtextBox.Text = a.Email1;
-                        ContraseniatextBox.Text = a.getPass();
-                        ContraseniaNuevatextBox.Text = a.getPass();
-                        ActivocheckBox.Checked = a.Activo1;
-                    }
-                }
-
-
             }
+
         }
 
         private void Modificar_Load(object sender, EventArgs e)
@@ -130,14 +102,7 @@ namespace EjExamenFich
             alumnos = menu.pasarArrayList();
         }
 
-        private void ContraseniaNuevatextBox_Validating(object sender, CancelEventArgs e)
-        {
-            if (!ContraseniatextBox.Text.Equals(ContraseniaNuevatextBox.Text))
-            {
-                errorProvider.SetError(ContraseniaNuevatextBox, "Las contraseñas no coinciden");
-                e.Cancel = true;
-            }
-        }
+      
 
         private void Ver_button_Click(object sender, EventArgs e)
         {
@@ -164,6 +129,30 @@ namespace EjExamenFich
         private void ContraseniaNuevatextBox_TextChanged(object sender, EventArgs e)
         {
             ContraseniaNuevatextBox.PasswordChar = '*';
+        }
+
+        private void DNImaskedTextBox_Leave(object sender, EventArgs e)
+        {
+            bool encontrado = false;
+            foreach (Alumno alumno in alumnos)
+            {
+                if (alumno.DNI1.Equals(DNImaskedTextBox.Text))
+                {
+                    NombretextBox.Text = alumno.Nombre1;
+                    DirecciontextBox.Text = alumno.Direccion1;
+                    TelefonomaskedTextBox.Text = alumno.Telefono1;
+                    EmailtextBox.Text = alumno.Email1;
+                    ContraseniatextBox.Text = alumno.getPass();
+                    ContraseniaNuevatextBox.Text = alumno.getPass();
+                    ActivocheckBox.Checked = alumno.Activo1;
+                    encontrado = true;
+                }
+            }
+            if (!encontrado)
+            {
+                MessageBox.Show("dni no encontrado");
+            }
+            
         }
     }
 }

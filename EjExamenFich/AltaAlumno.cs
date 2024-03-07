@@ -97,7 +97,7 @@ namespace EjExamenFich
         {
             if (ValidateChildren())
             {
-                 alumno = new Alumno(DNIMasked.Text,NombretextBox.Text,DirecciontextBox.Text,FamiliaCombo.Text, TelefonomaskedTextBox.Text,EmailtextBox.Text);
+                 alumno = new Alumno(DNIMasked.Text,NombretextBox.Text,DirecciontextBox.Text,FamiliaCombo.Text, TelefonomaskedTextBox.Text,EmailtextBox.Text,"",false);
                 this.DialogResult = DialogResult.OK;
             }
             

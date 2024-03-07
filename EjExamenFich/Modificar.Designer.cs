@@ -133,6 +133,7 @@
             this.DNImaskedTextBox.Name = "DNImaskedTextBox";
             this.DNImaskedTextBox.Size = new System.Drawing.Size(160, 20);
             this.DNImaskedTextBox.TabIndex = 8;
+            this.DNImaskedTextBox.Leave += new System.EventHandler(this.DNImaskedTextBox_Leave);
             this.DNImaskedTextBox.Validating += new System.ComponentModel.CancelEventHandler(this.DNImaskedTextBox_Validating);
             // 
             // NombretextBox
@@ -183,12 +184,11 @@
             this.ContraseniaNuevatextBox.Name = "ContraseniaNuevatextBox";
             this.ContraseniaNuevatextBox.Size = new System.Drawing.Size(148, 20);
             this.ContraseniaNuevatextBox.TabIndex = 14;
-            this.ContraseniaNuevatextBox.TextChanged += new System.EventHandler(this.ContraseniaNuevatextBox_TextChanged);
-            this.ContraseniaNuevatextBox.Validating += new System.ComponentModel.CancelEventHandler(this.ContraseniaNuevatextBox_Validating);
+            this.ContraseniaNuevatextBox.Validating += new System.ComponentModel.CancelEventHandler(this.ContraseniatextBox_Validating);
             // 
             // Aceptarbutton
             // 
-            this.Aceptarbutton.Location = new System.Drawing.Point(438, 207);
+            this.Aceptarbutton.Location = new System.Drawing.Point(438, 211);
             this.Aceptarbutton.Name = "Aceptarbutton";
             this.Aceptarbutton.Size = new System.Drawing.Size(126, 50);
             this.Aceptarbutton.TabIndex = 15;
@@ -224,6 +224,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoValidate = System.Windows.Forms.AutoValidate.EnableAllowFocusChange;
             this.ClientSize = new System.Drawing.Size(631, 415);
             this.Controls.Add(this.Ver_button);
             this.Controls.Add(this.Volverbutton);
